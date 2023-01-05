@@ -15,13 +15,13 @@ my_dataframe = pd.read_csv("CO2 Emissions_Canada.csv")
 
 
 # Graph 1:
-st.header('Co2 emissions per brand')
+st.header('Co2 Emissions By Brand')
 Brand_data = my_dataframe.groupby(['Make']).mean()
 fig = px.bar(Brand_data, x = Brand_data.index,  y='CO2 Emissions(g/km)', title = "Mean Co2 Emissions by Brand (g/km)", color = "CO2 Emissions(g/km)")
 #fig.update_traces(line_color='red')
 fig.update_layout(barmode='stack', xaxis={'categoryorder':'total descending'})
 st.plotly_chart(fig)
-st.markdown("Conclusion of the figure")
+st.markdown("Conclusion: Luxury brand cars such as Bugatti and Lamborghini are much higher in Co2 emissions, and compact-car brands such as Honda or Smart create much smaller Co2 emissions due to their weaker, lighter cars.")
 st.markdown("""---""")
 
 # Graph 2: Mean CO2 Emissions per Vehicle Class 
@@ -36,33 +36,58 @@ st.markdown("""---""")
 
 # Graph 3:
 st.header('Fuel type vs carbon emissions ')
-Fuel_Data = my_dataframe
-Fuel_data = Fuel_Data.rename(index={'D':"Diesel", 'E':"Ethanol (E85)","N":"Natural Gas","X":"Regular","Z":"Premium"})
-fig = px.box(my_dataframe, x="Fuel Type", y="CO2 Emissions(g/km)")
+rename_mydataframe = my_dataframe.replace({ 'Fuel Type': { 'Z': 'Premium Gasoline', 'D': 'Diesel','X': 'Regular Gasoline','E': 'Ethanol (E85)', 'N': 'Natural gas'}})
+fig = px.box(rename_mydataframe, x="Fuel Type", y="CO2 Emissions(g/km)")
 st.plotly_chart(fig)
-st.markdown("Conclusion")
+st.markdown("Conclusion: Diesel Gas is very consistent with its range of carbon emissions. Other fuels such as premium or regular gasoline have outliers which greatly exceed the expected range even though their median is very close to Diesel.")
 st.markdown("""---""")
 
 
-
-
-
 #Graph 4:
-
-
+st.header('Car brand vs vehicle class (carbon emissions) ')
+fig = px.scatter(my_dataframe, x='Make', y='Vehicle Class', color='Vehicle Class', size='CO2 Emissions(g/km)')
+st.plotly_chart(fig)
+st.markdown("Conclusion: The two seater cars have the highest carbon dioxide emissions rate than other vehicle classes. When comparing car brands, it can also be seen that Buggatti and Rolls Royce have much higher carbon dioxide emissions than brands such as Smart or Acura.")
+st.markdown("""---""")
 
 
 #Graph 5:
+st.header("Fuel Type's Effect On Fuel Consumption (Combined)")
 Fuel_Data = my_dataframe.groupby(['Fuel Type']).mean()
 Fuel_data = Fuel_Data.rename(index={'D':"Diesel", 'E':"Ethanol (E85)","N":"Natural Gas","X":"Regular","Z":"Premium"})
 st.write(Fuel_data)
-
-fig = px.pie(Fuel_data, values='Fuel Consumption Comb (L/100 km)', names = Fuel_data.index, title = "Fuel Type's Effect on Fuel Consumption (Combined)" )
+fig = px.pie(Fuel_data, values='Fuel Consumption Comb (L/100 km)', names = Fuel_data.index, title = "Fuel Type's Effect On Fuel Consumption (Combined)" )
 st.plotly_chart(fig)
 st.markdown("Conclusion: Diesel is the most efficient of the fuels provided, with ethanol being the least efficient. Regular is more efficient than premium.")
 st.markdown("""---""")
 
-# Graph 6:
+#Graph 6:
+st.header("Transmission Effect On Mean Fuel Consumption (Combined)")
+Transmission_data = my_dataframe.groupby(['Transmission']).mean()
+fig = px.bar(Transmission_data, x = Transmission_data.index,  y='Fuel Consumption Comb (L/100 km)', title = "Mean Fuel Consumption (Combined) By Transmission")
+# sorting required here
+fig.update_layout(barmode='stack', xaxis={'categoryorder':'total descending'})
+st.plotly_chart(fig)
+st.markdown("Conclusion: The AM5 engine is the most efficient with the A4 engine being the least efficient, this implies that on average A4 cars will be less fuel-efficient. Manual cars tend to fall in the middle, often being more efficient than automatic.")
+st.markdown("""---""")
+
+#Graph 7: 
+st.header('Engine Size Effect On Fuel Consumption (Combined')
+Engine_Data = my_dataframe.groupby(['Engine Size(L)']).mean()
+fig = px.line(Engine_Data, x= Engine_Data.index, y="Fuel Consumption Comb (L/100 km)", title='Engine Size Effect On Fuel Consumption (Combined)' )
+st.plotly_chart(fig)
+st.markdown("Conclusion: Engine size peaks fuel consumption at 8 L, lower engine size generally results in less fuel consumption")
+st.markdown("""---""")
+
+#Graph 8:
+st.header('Engine Size and Cylinders to Carbon Emissions and Fuel Consumption Correlation')
+fig = my_dataframe[['Engine Size(L)', 'Cylinders', 'Fuel Consumption City (L/100 km)', 'Fuel Consumption Hwy (L/100 km)', 'Fuel Consumption Comb (L/100 km)', 'CO2 Emissions(g/km)']]
+vals = fig.corr()
+dat = px.imshow(vals, text_auto = True)
+st.plotly_chart(dat)
+st.markdown('Conclusion (from this heatmap): CO2 Emissions has its highest correleation with Fuel Consumption By City (L/100km). Engine Size highly correlates with CO2 Emissions')
+st.markdown("""---""")
+
 
 
 # #show off a bit of your data. 
