@@ -7,11 +7,20 @@ import streamlit as st
 
 
 #Some basic commands in streamlit -- you can find an amazing cheat sheet here: https://docs.streamlit.io/library/cheatsheet
-st.title('Write title here')
-st.write('Descripton of our data')
+st.title('CO2 Emissions and Fuel Consumption By Vehicle Make and Class in Canada EDA')
+
+st.header('Masterminds behind this project: The Streamlit Stars')
+st.write('Cash Popik: I am from Alberta, Canada, I enjoy playing piano and learning about computer science.')
+st.write('Yunah Chung: I am from Los Angeles, California. I really like to go outside and take hikes and walks. I also love to learn about anything STEM related.')
+st.write('Isaac Jung: Hello, I am from Los Angeles, California. I like reading books and swimming. I also enjoy playing the cello and solving math problems.')
+st.write('Prasanga Neupane: Hi I am instructor of this group and I am from Louisiana. I love to travel and play guitar.')
+
 st.markdown("""---""")
+st.header('Our Dataset:')
+st.write('An analysis comparing the effects of car brand, vehicle class, fuel type, and engine type on carbon dioxide emissions. The data was taken by the Canadian government over a 7 year period.')
 #generate random data for my example dataframe -- howto: https://stackoverflow.com/questions/32752292/how-to-create-a-dataframe-of-random-integers-with-pandas
 my_dataframe = pd.read_csv("CO2 Emissions_Canada.csv")
+st.write(my_dataframe)
 
 
 # Graph 1:
@@ -55,8 +64,6 @@ st.markdown("""---""")
 st.header("Fuel Type's Effect On Fuel Consumption (Combined)")
 Fuel_Data = my_dataframe.groupby(['Fuel Type']).mean()
 Fuel_data = Fuel_Data.rename(index={'D':"Diesel", 'E':"Ethanol (E85)","N":"Natural Gas","X":"Regular","Z":"Premium"})
-st.write(Fuel_data)
-fig = px.pie(Fuel_data, values='Fuel Consumption Comb (L/100 km)', names = Fuel_data.index, title = "Fuel Type's Effect On Fuel Consumption (Combined)" )
 st.plotly_chart(fig)
 st.markdown("Conclusion: Diesel is the most efficient of the fuels provided, with ethanol being the least efficient. Regular is more efficient than premium.")
 st.markdown("""---""")
@@ -101,7 +108,3 @@ st.markdown("""---""")
 
 
 
-#Always good to section out your code for readability.
-st.header('Conclusions')
-st.markdown('- **Data Science is Fun!**')
-st.markdown('- **The [Streamlit Cheatsheet](https://docs.streamlit.io/library/cheatsheet) is really useful.**')
