@@ -97,7 +97,17 @@ st.plotly_chart(dat)
 st.markdown('Conclusion (from this heatmap): CO2 Emissions has its highest correleation with Fuel Consumption By City (L/100km). Engine Size highly correlates with CO2 Emissions')
 st.markdown("""---""")
 
+#Graph 9:
+st.header("AI Prediction of Co2 Emissions Per Vehicle")
+st.write('Description: For this graph, we utilized linear regression to predict CO2 Emission using four basic properties of a car such as engine size, cylinders, fuel consumption in the highway and city. With this, we used 80-20 train and test split to train and shown below is the final predictions of total CO2 emissions compared to the actual value.')
+predicted_df = pd.read_csv("Regression_prediction.csv")
+smaller_pred = predicted_df.head(100).sort_values(["Actual Values"], ignore_index=True)
+fig = px.line(smaller_pred,x = smaller_pred.index, y=["Actual Values", "Predicted Values"], title = "AI Prediction of Co2 Emissions Per Vehicle")
+fig.update_layout(yaxis_title='Predicted CO2 Emissions(g/km)', xaxis_title='Individual Vehicle')
+st.plotly_chart(fig)
 
+st.header("Conclusion")
+st.write('These graphs demonstrate the correlation between a variety of factors. We compared how car brands, vehicles classes, and fuel types affect the emission of carbon dioxide. In addition, there is a comparision of fuel consumption based on fuel type, transmission of fuel, and engine size. We also made a heat map to combine the correlations between each of the factors. Finally, there is the AI model, which predicts the carbon emissions based on the factors of engine size, the number of cylinder, and fuel consumption on city streets and the highway. However, it should be noted that there are spikes in the predicted values which do not align with the actual values, which could indicate that other factors such as vehicle class or car brand are also playing a role.')
 
 # #show off a bit of your data. 
 # st.header('The Data')
