@@ -7,7 +7,7 @@ import streamlit as st
 
 
 #Some basic commands in streamlit -- you can find an amazing cheat sheet here: https://docs.streamlit.io/library/cheatsheet
-st.title('CO2 Emissions and Fuel Consumption By Vehicle Make and Class in Canada EDA')
+st.title('CO2 Emissions and Fuel Consumption By Vehicle Class and Model in Canada EDA')
 
 st.header('Masterminds behind this project: The Streamlit Stars')
 st.write('Cash Popik: I am from Alberta, Canada, I enjoy playing piano and learning about computer science.')
@@ -40,7 +40,7 @@ vclass = px.bar(means, y = "CO2 Emissions(g/km)", title = "Mean Emissions per Ve
 vclass.update_layout(barmode='stack', xaxis={'categoryorder':'total ascending'})
 #vclass.update_traces(line_color='green')
 st.plotly_chart(vclass)
-st.markdown('Conclusion: Passenger and Cargo Vans have the highest enviornmental impact in terms of CO2 emmissions, while Stantion Wagons and Compact vehicles have the lowest impact.')
+st.markdown('Conclusion: Passenger and Cargo Vans have the highest environmental impact in terms of CO2 emissions, while Station Wagons and Compact vehicles have the lowest impact.')
 st.markdown("""---""")
 
 # Graph 3:
@@ -81,7 +81,7 @@ st.markdown("Conclusion: The AM5 engine is the most efficient with the A4 engine
 st.markdown("""---""")
 
 #Graph 7: 
-st.header('Engine Size Effect On Fuel Consumption (Combined')
+st.header('Engine Size Effect On Fuel Consumption (Combined)')
 Engine_Data = my_dataframe.groupby(['Engine Size(L)']).mean()
 fig = px.line(Engine_Data, x= Engine_Data.index, y="Fuel Consumption Comb (L/100 km)", title='Engine Size Effect On Fuel Consumption (Combined)' )
 st.plotly_chart(fig)
